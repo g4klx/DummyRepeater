@@ -11,6 +11,9 @@ dummyrepeater:	$(OBJECTS)
 %.o: %.cpp
 		$(CXX) $(CFLAGS) -I../Common -c -o $@ $<
 
+install:
+		install -g bin -o root -m 0775 dummyrepeater $(BINDIR)
+
 clean:
 		$(RM) dummyrepeater *.o *.d *.bak *~
 
