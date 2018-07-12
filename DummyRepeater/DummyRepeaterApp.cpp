@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2010-2015 by Jonathan Naylor G4KLX
+ *   Copyright (C) 2010-2015,2018 by Jonathan Naylor G4KLX
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@
 #include "ExternalController.h"
 #include "DVDongleController.h"
 #include "ArduinoController.h"
-#include "DummyRepeaterApp.h"
 #include "URIUSBController.h"
+#include "DummyRepeaterApp.h"
 #include "DV3000Controller.h"
 #include "STARDVController.h"
 #include "DVMEGAAMBEThread.h"
@@ -48,7 +48,7 @@
 #include <wx/config.h>
 #include <wx/filename.h>
 
-IMPLEMENT_APP(CDummyRepeaterApp)
+wxIMPLEMENT_APP(CDummyRepeaterApp);
 
 const wxString KEY_CALLSIGN1              = wxT("/callsign1");
 const wxString KEY_CALLSIGN2              = wxT("/callsign2");
