@@ -8,15 +8,15 @@ export LDFLAGS :=
 all:	DummyRepeater/dummyrepeater
 
 DummyRepeater/dummyrepeater:	Common/Common.a
-	make -C DummyRepeater
+	$(MAKE) -C DummyRepeater
 
 Common/Common.a:
-	make -C Common
+	$(MAKE) -C Common
 
 install:	all
-	make -C DummyRepeater install
+	$(MAKE) -C DummyRepeater install
 
 clean:
-	make -C Common clean
-	make -C DummyRepeater clean
+	$(MAKE) -C Common clean
+	$(MAKE) -C DummyRepeater clean
 
