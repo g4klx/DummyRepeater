@@ -5,14 +5,19 @@ OBJECTS = AddressTextCtrl.o ArduinoController.o Bleeper.o CallsignTextCtrl.o CCI
 	  SerialLineController.o SerialPortSelector.o SlowDataDecoder.o SlowDataEncoder.o SoundCardReaderWriter.o STARDVController.o \
 	  STARDVNetworkController.o STARDVThread.o Timer.o UDPReaderWriter.o URIUSBController.o Utils.o
 
+.PHONY: all
 all:		Common.a
 
 Common.a:	$(OBJECTS)
 		$(AR) rcs Common.a $(OBJECTS)
 
+-include $(OBJECTS:.o=.d)
+
 %.o: %.cpp
 		$(CXX) $(CFLAGS) -c -o $@ $<
+		$(CXX) -MM $(CFLAGS) $< > $*.d
 
+.PHONY: clean
 clean:
 		$(RM) Common.a *.o *.d *.bak *~
 
