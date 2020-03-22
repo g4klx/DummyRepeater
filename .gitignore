@@ -7,4 +7,6 @@ Release
 *~
 *.bak
 .vs
-
+*.d
+DummyRepeater/dummyrepeater
+Common/Common.a

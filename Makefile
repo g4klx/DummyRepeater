@@ -5,18 +5,24 @@ export CFLAGS  := -O2 -Wall $(shell wx-config --cxxflags)
 export LIBS    := $(shell wx-config --libs adv,core) -lasound -lusb-1.0
 export LDFLAGS := 
 
+.PHONY: all
 all:	DummyRepeater/dummyrepeater
 
-DummyRepeater/dummyrepeater:	Common/Common.a
+DummyRepeater/dummyrepeater:	Common/Common.a force
 	$(MAKE) -C DummyRepeater
 
-Common/Common.a:
+Common/Common.a:	force
 	$(MAKE) -C Common
 
+.PHONY: install
 install:	all
 	$(MAKE) -C DummyRepeater install
 
+.PHONY: clean
 clean:
 	$(MAKE) -C Common clean
 	$(MAKE) -C DummyRepeater clean
 
+.PHONY: force
+force :
+	@true
