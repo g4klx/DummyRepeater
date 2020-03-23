@@ -65,7 +65,29 @@ void* CDummyRepeaterThread::Entry()
 		Sleep(500UL);		// 1/2 sec
 
 	if (m_killed)
+	{
+		//clean up what we already have
+		if(m_dongle != NULL) {
+			m_dongle->kill();
+		}
+
+		if(m_controller != NULL) {
+			m_controller->setRadioTransmit(false);
+			m_controller->close();
+		}
+
+		if(m_protocol != NULL) {
+			m_protocol->close();
+			delete m_protocol;
+		}
+
+		if(m_soundcard != NULL) {
+			m_soundcard->close();
+			delete m_soundcard;
+		}
+
 		return NULL;
+	}
 
 	m_stopped = false;
 
