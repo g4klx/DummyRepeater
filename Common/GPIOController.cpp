@@ -11,6 +11,7 @@
  *	GNU General Public License for more details.
  */
 
+#ifdef GPIO
 #include "GPIOController.h"
 #include <wiringPi.h>
 
@@ -167,3 +168,5 @@ void CGPIOController::setDigitalOutputs(bool outp1, bool outp2, bool outp3, bool
 void CGPIOController::close()
 {
 }
+
+#endif

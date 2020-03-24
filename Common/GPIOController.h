@@ -11,6 +11,7 @@
  *	GNU General Public License for more details.
  */
 
+#ifdef GPIO
 #ifndef	GPIOController_H
 #define	GPIOController_H
 
@@ -43,4 +44,5 @@ private:
 	bool         m_outp8;
 };
 
+#endif
 #endif
