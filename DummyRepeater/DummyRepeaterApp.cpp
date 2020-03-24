@@ -47,6 +47,7 @@
 #include <wx/tokenzr.h>
 #include <wx/config.h>
 #include <wx/filename.h>
+#include <boost/bind.hpp>
 
 wxIMPLEMENT_APP(CDummyRepeaterApp);
 
@@ -198,48 +199,56 @@ void CDummyRepeaterApp::OnAssertFailure(const wxChar* file, int line, const wxCh
 void CDummyRepeaterApp::showMessage(CMessageData* message) const
 {
 	wxASSERT(message != NULL);
-
-	m_frame->showMessage(message);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showMessage, m_frame, message));
+	// m_frame->showMessage(message);
 }
 
 void CDummyRepeaterApp::showHeader(CHeaderData* header) const
 {
-	m_frame->showHeader(header);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showHeader, m_frame, header));
+	// m_frame->showHeader(header);
 }
 
 void CDummyRepeaterApp::showSlowData(const wxString& text) const
 {
-	m_frame->showSlowData(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showSlowData, m_frame, text));
+	// m_frame->showSlowData(text);
 }
 
 void CDummyRepeaterApp::showStatus1(const wxString& text) const
 {
-	m_frame->showStatus1(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus1, m_frame, text));
+	// m_frame->showStatus1(text);
 }
 
 void CDummyRepeaterApp::showStatus2(const wxString& text) const
 {
-	m_frame->showStatus2(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus2, m_frame, text));
+	// m_frame->showStatus2(text);
 }
 
 void CDummyRepeaterApp::showStatus3(const wxString& text) const
 {
-	m_frame->showStatus3(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus3, m_frame, text));
+	// m_frame->showStatus3(text);
 }
 
 void CDummyRepeaterApp::showStatus4(const wxString& text) const
 {
-	m_frame->showStatus4(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus4, m_frame, text));
+	// m_frame->showStatus4(text);
 }
 
 void CDummyRepeaterApp::showStatus5(const wxString& text) const
 {
-	m_frame->showStatus5(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus5, m_frame, text));
+	// m_frame->showStatus5(text);
 }
 
 void CDummyRepeaterApp::error(const wxString& text) const
 {
-	m_frame->error(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::error, m_frame, text));
+	// m_frame->error(text);
 }
 
 void CDummyRepeaterApp::setYour(const wxString& your)
