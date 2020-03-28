@@ -46,6 +46,7 @@ m_squelchInvert(NULL)
 // XXX ???
 #if defined(GPIO)
 	m_type->Append(wxT("GPIO"));
+	m_type->Append(wxT("DRAWS"));
 #endif
 
 	// Add the Velleman K8055
@@ -79,10 +80,7 @@ m_squelchInvert(NULL)
 	m_config = new wxChoice(this, -1, wxDefaultPosition, wxSize(CONTROL_WIDTH2, -1));
 	m_config->Append(wxT("1"));
 	m_config->Append(wxT("2"));
-#if defined(GPIO)
-	m_config->Append(wxT("3 (DRAWS Right)"));
-	m_config->Append(wxT("3 (DRAWS Left)"));
-#endif
+
 	sizer->Add(m_config, 0, wxALL | wxALIGN_LEFT, BORDER_SIZE);
 	m_config->SetSelection(config - 1);
 

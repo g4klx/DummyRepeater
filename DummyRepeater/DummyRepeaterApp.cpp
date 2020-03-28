@@ -35,6 +35,7 @@
 #include "DummyController.h"
 #if defined(GPIO)
 #include "GPIOController.h"
+#include "DRAWSGPIOController.h"
 #endif
 #include "DVDongleThread.h"
 #include "DV3000Thread.h"
@@ -826,6 +827,8 @@ void CDummyRepeaterApp::createThread()
 #if defined(GPIO)
 	} else if (type.IsSameAs(wxT("GPIO"))) {
 		controller = new CExternalController(new CGPIOController(config), pttInvert, squelchInvert);
+	} else if (type.IsSameAs(wxT("DRAWS"))) {
+		controller = new CExternalController(new CDRAWSGPIOController(config), pttInvert, squelchInvert);
 #endif
 	} else {
 		controller = new CExternalController(new CDummyController, pttInvert, squelchInvert);
