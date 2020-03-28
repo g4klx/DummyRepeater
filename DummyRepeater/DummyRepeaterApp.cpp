@@ -198,15 +198,16 @@ void CDummyRepeaterApp::OnAssertFailure(const wxChar* file, int line, const wxCh
 
 void CDummyRepeaterApp::showMessage(CMessageData* message) const
 {
-	wxASSERT(message != NULL);
-	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showMessage, m_frame, message));
+	if(message != NULL)
+		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showMessage, m_frame, message));
 	// m_frame->showMessage(message);
 }
 
 void CDummyRepeaterApp::showHeader(CHeaderData* header) const
 {
-	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showHeader, m_frame, header));
-	// m_frame->showHeader(header);
+	if(header != NULL)
+		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showHeader, m_frame, header));
+	//m_frame->showHeader(header);
 }
 
 void CDummyRepeaterApp::showSlowData(const wxString& text) const
@@ -245,6 +246,12 @@ void CDummyRepeaterApp::showStatus5(const wxString& text) const
 	// m_frame->showStatus5(text);
 }
 
+void CDummyRepeaterApp::setGUITransmit(bool on)
+{
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::setTX, m_frame, on));
+	//m_frame->setTX(on);
+}
+
 void CDummyRepeaterApp::error(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::error, m_frame, text));
@@ -269,11 +276,6 @@ void CDummyRepeaterApp::setRpt2(const wxString& rpt2)
 bool CDummyRepeaterApp::setTransmit(bool on)
 {
 	return m_thread->setTransmit(on);
-}
-
-void CDummyRepeaterApp::setGUITransmit(bool on)
-{
-	m_frame->setTX(on);
 }
 
 void CDummyRepeaterApp::getCallsign(wxString& callsign1, wxString& callsign2) const
