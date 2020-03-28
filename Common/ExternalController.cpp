@@ -73,15 +73,6 @@ void* CExternalController::Entry()
 		m_controller->getDigitalInputs(squelch1, m_radioSquelch2, m_externalSquelch, m_battery, m_disable);
 		m_radioSquelch1 = squelch1;
 
-		if(squelch1)
-		{
-			wxLogInfo("squelch true");
-		}
-		else
-		{
-			wxLogInfo("squelch false");
-		}
-
 		Sleep(DSTAR_FRAME_TIME_MS / 2U);
 	}
 
