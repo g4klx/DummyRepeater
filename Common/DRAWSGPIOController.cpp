@@ -24,7 +24,8 @@
 
 #include <wiringPi.h>
 
-CDRAWSGPIOController::CDRAWSGPIOController(unsigned int config) : CGPIOControllerBase(config)
+CDRAWSGPIOController::CDRAWSGPIOController(unsigned int config) : CGPIOControllerBase(config),
+m_outp1(false)
 {
 
 }
@@ -63,10 +64,13 @@ void CDRAWSGPIOController::getDigitalInputs(bool& inp1, bool& inp2, bool& inp3, 
 
 void CDRAWSGPIOController::setDigitalOutputs(bool outp1, bool outp2, bool outp3, bool outp4, bool outp5, bool outp6, bool outp7, bool outp8)
 {
-    if(m_config == DRAWS_LEFT) {
-        ::digitalWrite(DRAWS_PTT_LEFT, outp1 ? HIGH : LOW);
-    } else {
-        digitalWrite(DRAWS_PTT_RIGHT, outp1 ? HIGH : LOW);
+    if(m_outp1 != outp1){
+        if(m_config == DRAWS_LEFT) {
+            ::digitalWrite(DRAWS_PTT_LEFT, outp1 ? HIGH : LOW);
+        } else {
+            ::digitalWrite(DRAWS_PTT_RIGHT, outp1 ? HIGH : LOW);
+        }
+        m_outp1 = outp1;
     }
 }
 
