@@ -15,8 +15,7 @@
 #include "GPIOController.h"
 #include <wiringPi.h>
 
-CGPIOController::CGPIOController(unsigned int config) :
-m_config(config),
+CGPIOController::CGPIOController(unsigned int config) : CGPIOControllerBase(config),
 m_outp1(false),
 m_outp2(false),
 m_outp3(false),
@@ -34,12 +33,8 @@ CGPIOController::~CGPIOController()
 
 bool CGPIOController::open()
 {
-	bool ret = ::wiringPiSetup() != -1;
-	if (!ret) {
-		wxLogError(wxT("Unable to initialise wiringPi"));
-		return false;
-	}
-
+	if(!CGPIOControllerBase::open())
+		return false;	
 	::pinMode(8, INPUT);
 	::pinMode(9, INPUT);
 	::pinMode(7, INPUT);
@@ -53,7 +48,6 @@ bool CGPIOController::open()
 	::pullUpDnControl(0, PUD_UP);
 	::pullUpDnControl(2, PUD_UP);
 
-	::pinMode(12, OUTPUT);
 	::pinMode(13, OUTPUT);
 	::pinMode(14, OUTPUT);
 	::pinMode(11, OUTPUT);
@@ -167,6 +161,7 @@ void CGPIOController::setDigitalOutputs(bool outp1, bool outp2, bool outp3, bool
 
 void CGPIOController::close()
 {
+	CGPIOControllerBase::close();
 }
 
 #endif

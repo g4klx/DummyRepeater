@@ -3,7 +3,8 @@ OBJECTS = AddressTextCtrl.o ArduinoController.o Bleeper.o CallsignTextCtrl.o CCI
 	  DVMEGAAMBEController.o DVMEGAAMBEThread.o ExternalController.o FIRFilter.o HardwareController.o HeaderData.o K8055Controller.o \
 	  Logger.o MessageData.o MessageTextCtrl.o PortTextCtrl.o RepeaterProtocolHandler.o RestrictedTextCtrl.o SerialDataController.o \
 	  SerialLineController.o SerialPortSelector.o SlowDataDecoder.o SlowDataEncoder.o SoundCardReaderWriter.o STARDVController.o \
-	  STARDVNetworkController.o STARDVThread.o Timer.o UDPReaderWriter.o URIUSBController.o Utils.o GPIOController.o
+	  STARDVNetworkController.o STARDVThread.o Timer.o UDPReaderWriter.o URIUSBController.o Utils.o GPIOController.o GPIOControllerBase.o \
+	  DRAWSGPIOController.o
 
 .PHONY: all
 all:		Common.a
