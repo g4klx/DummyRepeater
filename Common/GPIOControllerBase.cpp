@@ -44,4 +44,8 @@ bool CGPIOControllerBase::open()
     return true;
 }
 
+void CGPIOControllerBase::close()
+{
+}
+
 #endif
