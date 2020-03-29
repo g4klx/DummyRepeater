@@ -70,7 +70,7 @@
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WXWIN)\include;$(IncludePath);$(WXWIN)\lib\vc_dll\mswud</IncludePath>
+    <IncludePath>$(BOOST_ROOT);$(WXWIN)\include;$(IncludePath);$(WXWIN)\lib\vc_dll\mswud</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
