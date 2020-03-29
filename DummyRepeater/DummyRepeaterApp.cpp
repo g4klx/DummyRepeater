@@ -201,62 +201,52 @@ void CDummyRepeaterApp::showMessage(CMessageData* message) const
 {
 	if(message != NULL)
 		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showMessage, m_frame, message));
-	// m_frame->showMessage(message);
 }
 
 void CDummyRepeaterApp::showHeader(CHeaderData* header) const
 {
 	if(header != NULL)
 		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showHeader, m_frame, header));
-	//m_frame->showHeader(header);
 }
 
 void CDummyRepeaterApp::showSlowData(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showSlowData, m_frame, text));
-	// m_frame->showSlowData(text);
 }
 
 void CDummyRepeaterApp::showStatus1(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus1, m_frame, text));
-	// m_frame->showStatus1(text);
 }
 
 void CDummyRepeaterApp::showStatus2(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus2, m_frame, text));
-	// m_frame->showStatus2(text);
 }
 
 void CDummyRepeaterApp::showStatus3(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus3, m_frame, text));
-	// m_frame->showStatus3(text);
 }
 
 void CDummyRepeaterApp::showStatus4(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus4, m_frame, text));
-	// m_frame->showStatus4(text);
 }
 
 void CDummyRepeaterApp::showStatus5(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus5, m_frame, text));
-	// m_frame->showStatus5(text);
 }
 
 void CDummyRepeaterApp::setGUITransmit(bool on)
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::setTX, m_frame, on));
-	//m_frame->setTX(on);
 }
 
 void CDummyRepeaterApp::error(const wxString& text) const
 {
 	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::error, m_frame, text));
-	// m_frame->error(text);
 }
 
 void CDummyRepeaterApp::setYour(const wxString& your)
