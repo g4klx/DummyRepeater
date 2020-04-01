@@ -69,7 +69,9 @@ void* CExternalController::Entry()
 
 	while (!m_kill) {
 		m_controller->setDigitalOutputs(m_radioTX, m_externalTX, m_heartbeat, m_active, m_out1, m_out2, m_out3, m_out4);
-		m_controller->getDigitalInputs(m_radioSquelch1, m_radioSquelch2, m_externalSquelch, m_battery, m_disable);
+		bool squelch1 = false;
+		m_controller->getDigitalInputs(squelch1, m_radioSquelch2, m_externalSquelch, m_battery, m_disable);
+		m_radioSquelch1 = squelch1;
 
 		Sleep(DSTAR_FRAME_TIME_MS / 2U);
 	}

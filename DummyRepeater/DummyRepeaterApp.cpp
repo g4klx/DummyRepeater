@@ -35,6 +35,7 @@
 #include "DummyController.h"
 #if defined(GPIO)
 #include "GPIOController.h"
+#include "DRAWSGPIOController.h"
 #endif
 #include "DVDongleThread.h"
 #include "DV3000Thread.h"
@@ -47,6 +48,7 @@
 #include <wx/tokenzr.h>
 #include <wx/config.h>
 #include <wx/filename.h>
+#include <boost/bind.hpp>
 
 wxIMPLEMENT_APP(CDummyRepeaterApp);
 
@@ -197,49 +199,54 @@ void CDummyRepeaterApp::OnAssertFailure(const wxChar* file, int line, const wxCh
 
 void CDummyRepeaterApp::showMessage(CMessageData* message) const
 {
-	wxASSERT(message != NULL);
-
-	m_frame->showMessage(message);
+	if(message != NULL)
+		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showMessage, m_frame, message));
 }
 
 void CDummyRepeaterApp::showHeader(CHeaderData* header) const
 {
-	m_frame->showHeader(header);
+	if(header != NULL)
+		m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showHeader, m_frame, header));
 }
 
 void CDummyRepeaterApp::showSlowData(const wxString& text) const
 {
-	m_frame->showSlowData(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showSlowData, m_frame, text));
 }
 
 void CDummyRepeaterApp::showStatus1(const wxString& text) const
 {
-	m_frame->showStatus1(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus1, m_frame, text));
 }
 
 void CDummyRepeaterApp::showStatus2(const wxString& text) const
 {
-	m_frame->showStatus2(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus2, m_frame, text));
 }
 
 void CDummyRepeaterApp::showStatus3(const wxString& text) const
 {
-	m_frame->showStatus3(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus3, m_frame, text));
 }
 
 void CDummyRepeaterApp::showStatus4(const wxString& text) const
 {
-	m_frame->showStatus4(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus4, m_frame, text));
 }
 
 void CDummyRepeaterApp::showStatus5(const wxString& text) const
 {
-	m_frame->showStatus5(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::showStatus5, m_frame, text));
+}
+
+void CDummyRepeaterApp::setGUITransmit(bool on)
+{
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::setTX, m_frame, on));
 }
 
 void CDummyRepeaterApp::error(const wxString& text) const
 {
-	m_frame->error(text);
+	m_frame->GetEventHandler()->CallAfter(boost::bind(&CDummyRepeaterFrame::error, m_frame, text));
 }
 
 void CDummyRepeaterApp::setYour(const wxString& your)
@@ -260,11 +267,6 @@ void CDummyRepeaterApp::setRpt2(const wxString& rpt2)
 bool CDummyRepeaterApp::setTransmit(bool on)
 {
 	return m_thread->setTransmit(on);
-}
-
-void CDummyRepeaterApp::setGUITransmit(bool on)
-{
-	m_frame->setTX(on);
 }
 
 void CDummyRepeaterApp::getCallsign(wxString& callsign1, wxString& callsign2) const
@@ -815,6 +817,8 @@ void CDummyRepeaterApp::createThread()
 #if defined(GPIO)
 	} else if (type.IsSameAs(wxT("GPIO"))) {
 		controller = new CExternalController(new CGPIOController(config), pttInvert, squelchInvert);
+	} else if (type.IsSameAs(wxT("DRAWS"))) {
+		controller = new CExternalController(new CDRAWSGPIOController(config), pttInvert, squelchInvert);
 #endif
 	} else {
 		controller = new CExternalController(new CDummyController, pttInvert, squelchInvert);

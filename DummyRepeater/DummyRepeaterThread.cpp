@@ -65,7 +65,29 @@ void* CDummyRepeaterThread::Entry()
 		Sleep(500UL);		// 1/2 sec
 
 	if (m_killed)
+	{
+		//clean up what we already have
+		if(m_dongle != NULL) {
+			m_dongle->kill();
+		}
+
+		if(m_controller != NULL) {
+			m_controller->setRadioTransmit(false);
+			m_controller->close();
+		}
+
+		if(m_protocol != NULL) {
+			m_protocol->close();
+			delete m_protocol;
+		}
+
+		if(m_soundcard != NULL) {
+			m_soundcard->close();
+			delete m_soundcard;
+		}
+
 		return NULL;
+	}
 
 	m_stopped = false;
 
@@ -376,72 +398,77 @@ void CDummyRepeaterThread::transmit()
 
 			if (n < VOICE_FRAME_LENGTH_BYTES)
 				Sleep(DSTAR_FRAME_TIME_MS / 4UL);
-		} while (n < VOICE_FRAME_LENGTH_BYTES);
+		} while (n < VOICE_FRAME_LENGTH_BYTES && !m_killed);
 
 		serviceNetwork();
 		checkController();
 	}
 
-	CHeaderData* header = new CHeaderData(m_callsign1, m_callsign2, m_your, m_rpt2, m_rpt1);
+	if(!m_killed) {
+		CHeaderData* header = new CHeaderData(m_callsign1, m_callsign2, m_your, m_rpt2, m_rpt1);
 
-	wxLogMessage(wxT("Transmitting to - My: %s/%s  Your: %s  Rpt1: %s  Rpt2: %s"), header->getMyCall1().c_str(), header->getMyCall2().c_str(), header->getYourCall().c_str(), header->getRptCall1().c_str(), header->getRptCall2().c_str());
+		wxLogMessage(wxT("Transmitting to - My: %s/%s  Your: %s  Rpt1: %s  Rpt2: %s"), header->getMyCall1().c_str(), header->getMyCall2().c_str(), header->getYourCall().c_str(), header->getRptCall1().c_str(), header->getRptCall2().c_str());
 
-	m_slowDataEncoder.reset();
-	m_slowDataEncoder.setHeaderData(*header);
-
-	serviceNetwork();
-	checkController();
-
-	if (!m_message.IsEmpty())
-		m_slowDataEncoder.setMessageData(m_message);
-
-	m_protocol->writeHeader(*header);
-	delete header;
-
-	serviceNetwork();
-	checkController();
-
-	m_frameCount = 20U;
-
-	unsigned int endCount = 30U;
-
-	// While transmitting and not exiting
-	for (;;) {
-		unsigned char frame[DV_FRAME_LENGTH_BYTES];
-		unsigned int n = 0U;
-		do {
-			n += m_encodeData.getData(frame + n, VOICE_FRAME_LENGTH_BYTES - n);
-
-			if (n < VOICE_FRAME_LENGTH_BYTES)
-				Sleep(DSTAR_FRAME_TIME_MS / 4UL);
-		} while (n < VOICE_FRAME_LENGTH_BYTES);
+		m_slowDataEncoder.reset();
+		m_slowDataEncoder.setHeaderData(*header);
 
 		serviceNetwork();
 		checkController();
 
-		if (m_frameCount == 20U) {
-			// Put in the data resync pattern
-			::memcpy(frame + VOICE_FRAME_LENGTH_BYTES, DATA_SYNC_BYTES, DATA_FRAME_LENGTH_BYTES);
-			m_frameCount = 0U;
-		} else {
-			// Tack the slow data on the end
-			m_slowDataEncoder.getData(frame + VOICE_FRAME_LENGTH_BYTES);
-			m_frameCount++;
-		}
+		if (!m_message.IsEmpty())
+			m_slowDataEncoder.setMessageData(m_message);
 
-		if (m_transmit != CLIENT_TRANSMIT)
-			endCount--;
-
-		// Send the AMBE and slow data frame
-		if (endCount == 0U || m_killed) {
-			m_protocol->writeData(frame, DV_FRAME_LENGTH_BYTES, 0U, true);
-			break;
-		} else {
-			m_protocol->writeData(frame, DV_FRAME_LENGTH_BYTES, 0U, false);
-		}
+		m_protocol->writeHeader(*header);
+		delete header;
 
 		serviceNetwork();
 		checkController();
+
+		m_frameCount = 20U;
+
+		unsigned int endCount = 30U;
+
+		// While transmitting and not exiting
+		for (;;) {
+			unsigned char frame[DV_FRAME_LENGTH_BYTES];
+			unsigned int n = 0U;
+			do {
+				n += m_encodeData.getData(frame + n, VOICE_FRAME_LENGTH_BYTES - n);
+
+				if (n < VOICE_FRAME_LENGTH_BYTES)
+					Sleep(DSTAR_FRAME_TIME_MS / 4UL);
+			} while (n < VOICE_FRAME_LENGTH_BYTES && !m_killed);
+
+			if(m_killed)
+				break;
+
+			serviceNetwork();
+			checkController();
+
+			if (m_frameCount == 20U) {
+				// Put in the data resync pattern
+				::memcpy(frame + VOICE_FRAME_LENGTH_BYTES, DATA_SYNC_BYTES, DATA_FRAME_LENGTH_BYTES);
+				m_frameCount = 0U;
+			} else {
+				// Tack the slow data on the end
+				m_slowDataEncoder.getData(frame + VOICE_FRAME_LENGTH_BYTES);
+				m_frameCount++;
+			}
+
+			if (m_transmit != CLIENT_TRANSMIT)
+				endCount--;
+
+			// Send the AMBE and slow data frame
+			if (endCount == 0U || m_killed) {
+				m_protocol->writeData(frame, DV_FRAME_LENGTH_BYTES, 0U, true);
+				break;
+			} else {
+				m_protocol->writeData(frame, DV_FRAME_LENGTH_BYTES, 0U, false);
+			}
+
+			serviceNetwork();
+			checkController();
+		}
 	}
 
 	m_dongle->setIdle();
