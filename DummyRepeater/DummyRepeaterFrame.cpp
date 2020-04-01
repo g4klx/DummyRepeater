@@ -426,7 +426,7 @@ void CDummyRepeaterFrame::onPreferences(wxCommandEvent&)
 	wxString message;
 	::wxGetApp().getMessage(message);
 
-	bool bleep;
+	unsigned int bleep;
 	::wxGetApp().getBleep(bleep);
 
 	CDummyRepeaterPreferences dialog1(this, -1, callsign1, callsign2, readDevice, writeDevice, dongleType, dongleDevice,

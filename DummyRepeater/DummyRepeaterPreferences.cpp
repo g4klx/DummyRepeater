@@ -27,7 +27,7 @@ CDummyRepeaterPreferences::CDummyRepeaterPreferences(wxWindow* parent, int id, c
 								   const wxString& gwyAddress, unsigned int gwyPort,
 								   const wxString& localAddress, unsigned int localPort, const wxString& type,
 								   unsigned int config, bool pttInvert, bool squelchInvert, unsigned int timeout,
-								   const wxString& message, bool bleep) :
+								   const wxString& message, unsigned int bleep) :
 wxDialog(parent, id, wxString(_("Dummy Repeater Preferences")), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER | wxDEFAULT_DIALOG_STYLE),
 m_callsign(NULL),
 m_soundcard(NULL),
@@ -204,7 +204,7 @@ wxString CDummyRepeaterPreferences::getMessage() const
 	return m_message->getMessage();
 }
 
-bool CDummyRepeaterPreferences::getBleep() const
+unsigned int CDummyRepeaterPreferences::getBleep() const
 {
 	return m_bleep->getBleep();
 }
