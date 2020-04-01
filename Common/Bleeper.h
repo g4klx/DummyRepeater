@@ -21,9 +21,18 @@
 
 #include <wx/wx.h>
 
+const unsigned int  DSTAR_BLEEP_FREQ   = 2000U;
+const unsigned int  DSTAR_BLEEP_LENGTH = 100U;
+const float         DSTAR_BLEEP_AMPL   = 0.5F;
+
+//https://en.wikipedia.org/wiki/Quindar_tones
+const unsigned int  QUINDAR_BLEEP_FREQ   = 2475U;
+const unsigned int  QUINDAR_BLEEP_LENGTH = 250U;
+const float         QUINDAR_BLEEP_AMPL   = 0.5F;
+
 class CBleeper {
 public:
-	CBleeper(unsigned int sampleRate, unsigned int hz, unsigned int ms, float amplitude);
+	CBleeper(unsigned int sampleRate, unsigned int bleepType, float amplitude);
 	~CBleeper();
 
 	unsigned int getAudio(wxFloat32* audio, unsigned int length);
@@ -31,6 +40,7 @@ public:
 	void reset();
 
 private:
+	unsigned int m_bleepType;
 	wxFloat32*   m_audio;
 	unsigned int m_length;
 	unsigned int m_total;

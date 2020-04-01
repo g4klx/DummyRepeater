@@ -46,7 +46,7 @@ public:
 	virtual unsigned int writeEncode(const wxFloat32* audio, unsigned int length);
 	virtual unsigned int writeDecode(const unsigned char* ambe, unsigned int length);
 
-	virtual void setBleep(bool on);
+	virtual void setBleep(int bleep);
 
 	virtual void kill();
 
@@ -55,7 +55,7 @@ protected:
 	IDecodeCallback*           m_decodeCallback;
 	CRingBuffer<wxFloat32>     m_encodeAudio;
 	CRingBuffer<unsigned char> m_decodeData;
-	bool                       m_bleep;
+	int                        m_bleep;
 	bool                       m_killed;
 
 	void reset();
