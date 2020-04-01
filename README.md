@@ -14,5 +14,5 @@ WirinPi is only necessary to build on Raspberry Pi and have GPIO or dRAWS suppor
 ## Build
 `make -j5`
 
-## Know issues
+## Known issues
 Using DV3000 over serial connection makes the program freeze from time to time, recommended is to use through AMBEserver
