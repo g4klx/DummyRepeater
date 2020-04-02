@@ -133,6 +133,7 @@ unsigned int CDongleThread::writeDecode(const unsigned char* ambe, unsigned int 
 	return m_decodeData.addData(ambe, length);
 }
 
+
 void CDongleThread::setBleep(unsigned int bleep)
 {
 	m_bleep = bleep;
@@ -156,7 +157,11 @@ void CDongleThread::sendBleep()
 	unsigned int n;
 
 	//CBleeper bleep(DSTAR_RADIO_SAMPLE_RATE, DSTAR_BLEEP_FREQ, DSTAR_BLEEP_LENGTH, DSTAR_BLEEP_AMPL);
+<<<<<<< HEAD
 	CBleeper bleep = CBleeper(DSTAR_RADIO_SAMPLE_RATE, m_bleep, 1.0f);
+=======
+	CBleeper bleep = CBleeper(DSTAR_RADIO_SAMPLE_RATE, m_bleep, DSTAR_BLEEP_AMPL);
+>>>>>>> e969a98bd151ac24b95df3c8b31d9c77dbcb7f48
 
 	while ((n = bleep.getAudio(audio, DSTAR_RADIO_BLOCK_SIZE)) > 0U)
 		m_decodeCallback->decodeCallback(audio, n);

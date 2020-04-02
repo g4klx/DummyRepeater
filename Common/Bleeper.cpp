@@ -40,6 +40,7 @@ m_position(0U)
 
 		for (unsigned int i = 0U; i < m_length; i++) {
 			m_audio[i] = ::sinf((float)i * radianStep) * QUINDAR_BLEEP_AMPL * amplitude;
+
 		}
 	} else {	
 		m_length = sampleRate / DSTAR_BLEEP_FREQ;
@@ -52,6 +53,7 @@ m_position(0U)
 				m_audio[i] = amplitude * DSTAR_BLEEP_AMPL;
 			else
 				m_audio[i] = (-amplitude) * DSTAR_BLEEP_AMPL;
+
 		}
 	}
 }
