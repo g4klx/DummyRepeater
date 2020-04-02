@@ -28,11 +28,7 @@ const float         DSTAR_BLEEP_AMPL   = 0.5F;
 //https://en.wikipedia.org/wiki/Quindar_tones
 const unsigned int  QUINDAR_BLEEP_FREQ   = 2475U;
 const unsigned int  QUINDAR_BLEEP_LENGTH = 250U;
-<<<<<<< HEAD
 const float         QUINDAR_BLEEP_AMPL   = 0.25F;
-=======
-const float         QUINDAR_BLEEP_AMPL   = 0.5F;
->>>>>>> e969a98bd151ac24b95df3c8b31d9c77dbcb7f48
 
 class CBleeper {
 public:
