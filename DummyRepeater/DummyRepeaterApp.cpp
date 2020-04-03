@@ -79,6 +79,7 @@ const wxString KEY_RPT2_CALL              = wxT("/rpt2Call");
 const wxString KEY_RPT2_LIST              = wxT("/rpt2List");
 const wxString KEY_TIMEOUT                = wxT("/timeout");
 const wxString KEY_BLEEP                  = wxT("/bleep");
+const wxString KEY_BLEEP_VOLUME			  = wxT("/bleepVolume");
 const wxString KEY_WINDOW_X               = wxT("/windowX");
 const wxString KEY_WINDOW_Y               = wxT("/windowY");
 
@@ -107,7 +108,8 @@ const wxString DEFAULT_RPT1_LIST          = wxEmptyString;
 const wxString DEFAULT_RPT2_CALL          = wxEmptyString;
 const wxString DEFAULT_RPT2_LIST          = wxEmptyString;
 const long     DEFAULT_TIMEOUT            = 180L;
-const unsigned int     DEFAULT_BLEEP      = 1;
+const long     DEFAULT_BLEEP   		      = 1L;
+const long     DEFAULT_BLEEP_VOLUME       = 30L;
 const long     DEFAULT_WINDOW_X           = -1L;
 const long     DEFAULT_WINDOW_Y           = -1L;
 
@@ -606,7 +608,7 @@ void CDummyRepeaterApp::setRpt2Calls(const wxString& call, const wxSortedArraySt
 	delete profile;
 }
 
-void CDummyRepeaterApp::getBleep(unsigned int& bleep) const
+void CDummyRepeaterApp::getBleep(unsigned int& bleep, unsigned int& volume) const
 {
 	wxConfigBase* profile = new wxConfig(APPLICATION_NAME);
 	wxASSERT(profile != NULL);
@@ -615,22 +617,28 @@ void CDummyRepeaterApp::getBleep(unsigned int& bleep) const
 	profile->Read(KEY_BLEEP, &temp, DEFAULT_BLEEP);
 	bleep =(unsigned int)temp;
 
+	profile->Read(KEY_BLEEP_VOLUME, &temp, DEFAULT_BLEEP_VOLUME);
+	volume =(unsigned int)temp;
+
 	wxLogInfo(wxT("End bleep set to %d"), bleep);
+	wxLogInfo(wxT("End bleep volume set to %d"), volume);
 
 	delete profile;
 }
 
-void CDummyRepeaterApp::setBleep(unsigned int bleep) const
+void CDummyRepeaterApp::setBleep(unsigned int bleep, unsigned int volume) const
 {
 	wxConfigBase* profile = new wxConfig(APPLICATION_NAME);
 	wxASSERT(profile != NULL);
 
 	profile->Write(KEY_BLEEP, bleep);
+	profile->Write(KEY_BLEEP_VOLUME, volume);
 	profile->Flush();
 
 	wxLogInfo(wxT("End bleep set to %d"), bleep);
+	wxLogInfo(wxT("End bleep volume set to %d"), volume);
 
-	m_thread->setBleep(bleep);
+	m_thread->setBleep(bleep, volume);
 
 	delete profile;
 }
@@ -834,8 +842,8 @@ void CDummyRepeaterApp::createThread()
 		m_thread->setController(controller);
 	}
 
-	unsigned int bleep;
-	getBleep(bleep);
-	m_thread->setBleep(bleep);
+	unsigned int bleep, bleepVolume;
+	getBleep(bleep, bleepVolume);
+	m_thread->setBleep(bleep, bleepVolume);
 }
 

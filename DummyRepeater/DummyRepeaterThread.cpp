@@ -217,10 +217,10 @@ void CDummyRepeaterThread::setMessage(const wxString& text)
 	m_message = text;
 }
 
-void CDummyRepeaterThread::setBleep(unsigned int bleep)
+void CDummyRepeaterThread::setBleep(unsigned int bleep, unsigned int volume)
 {
 	if (m_dongle != NULL)
-		m_dongle->setBleep(bleep);
+		m_dongle->setBleep(bleep, volume);
 }
 
 void CDummyRepeaterThread::setYour(const wxString& your)

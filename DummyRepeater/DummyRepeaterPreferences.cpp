@@ -27,7 +27,7 @@ CDummyRepeaterPreferences::CDummyRepeaterPreferences(wxWindow* parent, int id, c
 								   const wxString& gwyAddress, unsigned int gwyPort,
 								   const wxString& localAddress, unsigned int localPort, const wxString& type,
 								   unsigned int config, bool pttInvert, bool squelchInvert, unsigned int timeout,
-								   const wxString& message, unsigned int bleep) :
+								   const wxString& message, unsigned int bleep, unsigned int bleepVolume) :
 wxDialog(parent, id, wxString(_("Dummy Repeater Preferences")), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER | wxDEFAULT_DIALOG_STYLE),
 m_callsign(NULL),
 m_soundcard(NULL),
@@ -63,7 +63,7 @@ m_bleep(NULL)
 	m_message = new CDummyRepeaterMessageSet(noteBook, -1, APPLICATION_NAME, message);
 	noteBook->AddPage(m_message, _("Message"), false);
 
-	m_bleep = new CDummyRepeaterBleepSet(noteBook, -1, APPLICATION_NAME, bleep);
+	m_bleep = new CDummyRepeaterBleepSet(noteBook, -1, APPLICATION_NAME, bleep, bleepVolume);
 	noteBook->AddPage(m_bleep, _("Bleep"), false);
 
 	mainSizer->Add(noteBook, 1, wxALL | wxGROW, BORDER_SIZE);
@@ -207,4 +207,9 @@ wxString CDummyRepeaterPreferences::getMessage() const
 unsigned int CDummyRepeaterPreferences::getBleep() const
 {
 	return m_bleep->getBleep();
+}
+
+unsigned int CDummyRepeaterPreferences::getBleepVolume() const
+{
+	return m_bleep->getBleepVolume();
 }

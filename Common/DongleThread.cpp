@@ -134,9 +134,10 @@ unsigned int CDongleThread::writeDecode(const unsigned char* ambe, unsigned int 
 }
 
 
-void CDongleThread::setBleep(unsigned int bleep)
+void CDongleThread::setBleep(unsigned int bleep, unsigned int volume)
 {
 	m_bleep = bleep;
+	m_bleepVolume = volume;
 }
 
 void CDongleThread::kill()
@@ -156,7 +157,7 @@ void CDongleThread::sendBleep()
 	wxFloat32 audio[DSTAR_RADIO_BLOCK_SIZE];
 	unsigned int n;
 	
-	CBleeper bleep = CBleeper(DSTAR_RADIO_SAMPLE_RATE, m_bleep, 0.5f);
+	CBleeper bleep = CBleeper(DSTAR_RADIO_SAMPLE_RATE, m_bleep, (float)m_bleepVolume / 100.0f);
 
 	while ((n = bleep.getAudio(audio, DSTAR_RADIO_BLOCK_SIZE)) > 0U)
 		m_decodeCallback->decodeCallback(audio, n);

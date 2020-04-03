@@ -38,7 +38,7 @@ public:
 		SERIAL_SPEED dongleSpeed, const wxString& dongleAddress, unsigned int donglePort, const wxString& gwyAddress,
 		unsigned int gwyPort, const wxString& localAddress, unsigned int localPort, const wxString& type,
 		unsigned int config, bool pttInvert, bool squelchInvert, unsigned int timeout, const wxString& message,
-		unsigned int bleep);
+		unsigned int bleep, unsigned int bleepVolume);
 	virtual ~CDummyRepeaterPreferences();
 
 	virtual bool Validate();
@@ -70,6 +70,7 @@ public:
 	virtual wxString     getMessage() const;
 
 	virtual unsigned int getBleep() const;
+	virtual unsigned int getBleepVolume() const;
 
 private:
 	CDummyRepeaterCallsignSet*   m_callsign;
