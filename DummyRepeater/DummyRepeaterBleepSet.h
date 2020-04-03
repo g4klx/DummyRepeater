@@ -23,14 +23,16 @@
 
 class CDummyRepeaterBleepSet : public wxPanel {
 public:
-	CDummyRepeaterBleepSet(wxWindow* parent, int id, const wxString& title, bool bleep);
+	CDummyRepeaterBleepSet(wxWindow* parent, int id, const wxString& title, unsigned int bleep, unsigned int volume);
 	virtual ~CDummyRepeaterBleepSet();
 
-	virtual bool getBleep() const;
+	virtual unsigned int getBleep() const;
+	virtual unsigned int getBleepVolume() const;
 
 private:
 	wxString    m_title;
-	wxCheckBox* m_bleep;
+	wxChoice*   m_bleep;
+	wxSlider*   m_volume;
 };
 
 #endif

@@ -21,16 +21,25 @@
 const unsigned int BORDER_SIZE   = 5U;
 const unsigned int CONTROL_WIDTH = 200U;
 
-CDummyRepeaterBleepSet::CDummyRepeaterBleepSet(wxWindow* parent, int id, const wxString& title, bool bleep) :
+CDummyRepeaterBleepSet::CDummyRepeaterBleepSet(wxWindow* parent, int id, const wxString& title, unsigned int bleep, unsigned int volume) :
 wxPanel(parent, id),
 m_title(title),
 m_bleep(NULL)
 {
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-	m_bleep = new wxCheckBox(this, -1, _("End Bleep"));
-	m_bleep->SetValue(bleep);
+	m_bleep = new wxChoice(this,  wxID_ANY, wxDefaultPosition, wxSize(CONTROL_WIDTH, -1));
+	m_bleep->Append("Off");
+	m_bleep->Append("IC91 Like");
+	m_bleep->Append("Quindar");
+	m_bleep->SetSelection(bleep);
+
+	if(volume < 0) volume = 0;
+	if(volume > 100) volume = 100;
+	m_volume = new wxSlider(this, -1, volume, 0, 100, wxDefaultPosition, wxSize(CONTROL_WIDTH, -1), wxSL_HORIZONTAL | wxSL_LABELS);
+
 	sizer->Add(m_bleep, 0, wxALL | wxALIGN_LEFT, BORDER_SIZE);
+	sizer->Add(m_volume, 0, wxALL | wxALIGN_LEFT, BORDER_SIZE);
 
 	SetAutoLayout(true);
 
@@ -45,7 +54,13 @@ CDummyRepeaterBleepSet::~CDummyRepeaterBleepSet()
 {
 }
 
-bool CDummyRepeaterBleepSet::getBleep() const
+unsigned int CDummyRepeaterBleepSet::getBleep() const
 {
-	return m_bleep->GetValue();
+	return m_bleep->GetSelection();
 }
+
+unsigned int CDummyRepeaterBleepSet::getBleepVolume() const
+{
+	return m_volume->GetValue();
+}
+

@@ -55,6 +55,10 @@ void* CDV3000Thread::Entry()
 				reset();
 				m_mode = m_wantMode;
 			} else if (m_mode == A3_ENCODE && m_packets == 0U && m_encodeAudio.isEmpty()) {
+				// if(m_bleep){
+				// 	m_mode = A3_DECODE;
+				// 	continue;
+				// }
 				reset();
 				m_mode = m_wantMode;
 			} else if (m_mode == A3_IDLE) {

@@ -146,10 +146,6 @@ const unsigned int  RADIO_RUN_FRAME_COUNT   = 5U;
 const unsigned int  LOCAL_RUN_FRAME_COUNT   = 1U;
 const unsigned int  NETWORK_RUN_FRAME_COUNT = 25U;
 
-const unsigned int  DSTAR_BLEEP_FREQ   = 2000U;
-const unsigned int  DSTAR_BLEEP_LENGTH = 100U;
-const float         DSTAR_BLEEP_AMPL   = 0.5F;
-
 enum DSTAR_RPT_STATE {
 	DSRS_SHUTDOWN,
 	DSRS_LISTENING,

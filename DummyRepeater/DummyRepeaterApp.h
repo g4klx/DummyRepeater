@@ -93,8 +93,8 @@ public:
 	virtual void getTimeout(unsigned int& timeout) const;
 	virtual void setTimeout(unsigned int timeout) const;
 
-	virtual void getBleep(bool& on) const;
-	virtual void setBleep(bool on) const;
+	virtual void getBleep(unsigned int& bleep, unsigned int& volume) const;
+	virtual void setBleep(unsigned int bleep, unsigned int volume) const;
 
 	virtual void getPosition(int& x, int& y) const;
 	virtual void setPosition(int x, int y) const;

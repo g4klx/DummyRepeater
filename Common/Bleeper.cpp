@@ -20,27 +20,41 @@
 
 #include <cmath>
 
-CBleeper::CBleeper(unsigned int sampleRate, unsigned int hz, unsigned int ms, float amplitude) :
+CBleeper::CBleeper(unsigned int sampleRate, unsigned int bleepType, float amplitude) :
+m_bleepType(bleepType),
 m_audio(NULL),
 m_length(0U),
 m_total(0U),
 m_position(0U)
 {
 	wxASSERT(sampleRate > 0U);
-	wxASSERT(hz > 0U);
-	wxASSERT(ms > 0U);
 	wxASSERT(amplitude > 0.0F);
 
-	m_length = sampleRate / hz;
-	m_total  = (sampleRate * ms) / 1000U;
+	if(bleepType == 2) {
+		m_length = sampleRate / QUINDAR_BLEEP_FREQ;
+		m_total = (sampleRate * QUINDAR_BLEEP_LENGTH) / 1000U;
 
-	m_audio = new wxFloat32[m_length];
+		float radianStep = (2.0f * M_PI) / (float)m_length;
 
-	for (unsigned int i = 0U; i < m_length; i++) {
-		if (i < m_length / 2U)
-			m_audio[i] = amplitude;
-		else
-			m_audio[i] = -amplitude;
+		m_audio = new wxFloat32[m_length];
+
+		for (unsigned int i = 0U; i < m_length; i++) {
+			m_audio[i] = ::sinf((float)i * radianStep) * QUINDAR_BLEEP_AMPL * amplitude;
+
+		}
+	} else {	
+		m_length = sampleRate / DSTAR_BLEEP_FREQ;
+		m_total  = (sampleRate * DSTAR_BLEEP_LENGTH) / 1000U;
+
+		m_audio = new wxFloat32[m_length];
+
+		for (unsigned int i = 0U; i < m_length; i++) {
+			if (i < m_length / 2U)
+				m_audio[i] = amplitude * DSTAR_BLEEP_AMPL;
+			else
+				m_audio[i] = (-amplitude) * DSTAR_BLEEP_AMPL;
+
+		}
 	}
 }
 

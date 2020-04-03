@@ -58,7 +58,7 @@ public:
 	virtual void setProtocol(CRepeaterProtocolHandler* protocol);
 	virtual void setController(CExternalController* controller);
 	virtual void setMessage(const wxString& text);
-	virtual void setBleep(bool on);
+	virtual void setBleep(unsigned int bleep, unsigned int volume);
 
 	virtual void setYour(const wxString& your);
 	virtual void setRpt1(const wxString& rpt1);
