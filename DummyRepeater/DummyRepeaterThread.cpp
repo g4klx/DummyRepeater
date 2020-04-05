@@ -382,6 +382,10 @@ void CDummyRepeaterThread::receive()
 
 		Sleep(DSTAR_FRAME_TIME_MS / 4UL);
 	}
+
+	m_dongle->setIdle();
+	m_protocol->reset();
+	resetReceiver();
 }
 
 void CDummyRepeaterThread::transmit()
@@ -472,7 +476,7 @@ void CDummyRepeaterThread::transmit()
 	}
 
 	m_dongle->setIdle();
-
+	m_protocol->reset();
 	resetReceiver();
 
 	m_transmit = CLIENT_RECEIVE;
